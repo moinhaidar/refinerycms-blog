@@ -6,7 +6,7 @@ module Refinery
     class Post < ActiveRecord::Base
       extend FriendlyId
 
-      translates :title, :body, :custom_url, :custom_teaser, :slug, :include => :seo_meta
+      # translates :title, :body, :custom_url, :custom_teaser, :slug, :include => :seo_meta
 
       friendly_id :friendly_id_source, :use => [:slugged, :globalize]
 
@@ -29,9 +29,9 @@ module Refinery
                                       :allow_blank => true,
                                       :verify => [:resolve_redirects]}
 
-      class Translation
-        is_seo_meta
-      end
+      #class Translation
+        #is_seo_meta
+      #end
       
       # Override this to disable required authors
       def author_required?
@@ -46,7 +46,7 @@ module Refinery
 
       # Delegate SEO Attributes to globalize translation
       seo_fields = ::SeoMeta.attributes.keys.map{|a| [a, :"#{a}="]}.flatten
-      delegate(*(seo_fields << {:to => :translation}))
+      #delegate(*(seo_fields << {:to => :translation}))
 
       self.per_page = Refinery::Blog.posts_per_page
 
@@ -70,16 +70,17 @@ module Refinery
 
         # Wrap up the logic of finding the pages based on the translations table.
         def with_globalize(conditions = {})
-          conditions = {:locale => ::Globalize.locale}.merge(conditions)
+          #conditions = {:locale => ::Globalize.locale}.merge(conditions)
           globalized_conditions = {}
-          conditions.keys.each do |key|
-            if (translated_attribute_names.map(&:to_s) | %w(locale)).include?(key.to_s)
-              globalized_conditions["#{self.translation_class.table_name}.#{key}"] = conditions.delete(key)
-            end
-          end
+          # conditions.keys.each do |key|
+          #   if (translated_attribute_names.map(&:to_s) | %w(locale)).include?(key.to_s)
+          #     globalized_conditions["#{self.translation_class.table_name}.#{key}"] = conditions.delete(key)
+          #   end
+          # end
           # A join implies readonly which we don't really want.
-          where(conditions).joins(:translations).where(globalized_conditions)
-                           .readonly(false)
+          # where(conditions).joins(:translations).where(globalized_conditions)
+          #                 .readonly(false)
+          where(conditions).where(globalized_conditions).readonly(false)
         end
 
         def by_month(date)
@@ -91,7 +92,8 @@ module Refinery
         end
 
         def by_title(title)
-          joins(:translations).find_by(:title => title)
+          #joins(:translations).find_by(:title => title)
+          find_by(:title => title)
         end
 
         def newest_first

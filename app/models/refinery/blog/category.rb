@@ -13,7 +13,8 @@ module Refinery
       validates :title, :presence => true, :uniqueness => true
 
       def self.by_title(title)
-        joins(:translations).find_by(title: title)
+        #joins(:translations).find_by(title: title)
+        find_by(title: title)
       end
 
       def self.translated

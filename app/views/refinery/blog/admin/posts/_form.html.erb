@@ -113,7 +113,7 @@
                                                :data => {
                                                  :confirm => t('delete_translation_confirmation', :scope => 'refinery.blog.admin.posts.post')
                                                },
-                                               :class => "button confirm-delete") if Refinery::I18n.frontend_locales.many? && @post.translations.size > 1) %>
+                                               :class => "button confirm-delete") if Refinery::I18n.frontend_locales.many? && @post.size > 1) %>
 <% end -%>
 
 <% content_for :stylesheets, stylesheet_link_tag('refinery/blog/backend') %>

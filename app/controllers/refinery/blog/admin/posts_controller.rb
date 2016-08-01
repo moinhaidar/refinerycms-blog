@@ -5,7 +5,8 @@ module Refinery
 
         crudify :'refinery/blog/post',
                 :order => 'published_at DESC',
-                :include => [:translations, :author]
+                #:include => [:translations, :author]
+                :include => [:author]
 
         before_filter :find_all_categories,
                       :only => [:new, :edit, :create, :update]

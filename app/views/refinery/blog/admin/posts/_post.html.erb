@@ -1,14 +1,16 @@
 <li class='clearfix record <%= cycle("on", "on-hover") %>' id="<%= dom_id(post) -%>">
   <span class='title'>
-    <%= post.title.presence || post.translations.detect {|t| t.title.present?}.title %>
+    <%= post.title.presence %>
     <span class="preview">
-      <% post.translations.reject {|t| t.title.blank? }.each do |translation| %>
-        <%= link_to refinery.edit_blog_admin_post_path(post, :switch_locale => translation.locale),
-                    :class => 'locale' do %>
-          <div class="locale_icon <%= translation.locale %>">
-            <%= refinery_icon_tag('locale-blue.svg', :size => '24x24') %>
-            <span class="code"><%= translation.locale.upcase %></span>
-          </div>
+      <% if false %>
+        <% post.translations.reject {|t| t.title.blank? }.each do |translation| %>
+          <%= link_to refinery.edit_blog_admin_post_path(post, :switch_locale => translation.locale),
+                      :class => 'locale' do %>
+            <div class="locale_icon <%= translation.locale %>">
+              <%= refinery_icon_tag('locale-blue.svg', :size => '24x24') %>
+              <span class="code"><%= translation.locale.upcase %></span>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
 
